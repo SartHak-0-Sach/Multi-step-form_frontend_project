@@ -1,0 +1,42 @@
+Ubuntu Font Family source code
+
+  *  *.vfb design files are used with FontLab Studio 5.
+  *  VTT/*.ttf files are inputs to MS Visual TrueType (Hinting)
+  *  CacheTT/*.cfg file is input to MS CacheTT
+
+Free-as-in-beer programs, to process these files can be found at:
+
+  http://www.microsoft.com/typography/tools/vtt.aspx
+  http://www.microsoft.com/typography/tools/tools.aspx
+
+Commercial programs, with a free-as-in-beer limited trial version:
+
+  http://www.fontlab.com/font-editor/fontlab-studio/
+
+The build process used by Dalton Maag is as follows.  There are no
+multiple-masters, any interpolation is done by the designers from the
+base font.  Per-font there are currently a total of two source files:
+
+   1. FL: Make adjustments in FontLab
+   2. FL: Note list of changed glyphs somewhere (eg. a sheet of paper)
+   3. FL: Export as W.ttf
+   4. VTT: Load W.ttf into VTT
+   5. VTT: Partially import X.ttf (including VTT private "source"
+      table), manually deselecting any changed glyphs noted earlier
+   6. VTT: Make adjustments in VTT
+   7. VTT: Save as X.ttf (including VTT private "source" tables)
+   8. VTT: Export as Y.ttf (without VTT private "source" tables)
+   9. CacheTT: Process Y.ttf + configuration file with MS CacheTT
+      ("optimisation stage")
+  10. CacheTT: Distribute optimised Z.ttf as end-user file
+
+This 'Z.ttf' is the version that is then shipped, there is no merging
+(other than selective import of glyphs metadata from previous version
+in VTT), and no use of VOLT in the current pipeline, although VOLT
+will be used for Arabic.  To reproduce the output .ttfs, the following
+are required:
+
+   1. one-off .vfb per font (currently four)
+   2. one-off .ttf per font (containing VTT "source" tables)
+   4. one-off CacheTT .cfg configuration file (across all fonts)
+   3. one-off .ttf per font (final output)
